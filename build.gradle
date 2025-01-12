@@ -6,7 +6,7 @@ plugins {
 }
 
 version = "0.1"
-group = "com.hangovers"
+group = "com.hangovers.funpokedex"
 
 repositories {
     mavenCentral()
@@ -21,6 +21,7 @@ dependencies {
     implementation("io.micronaut:micronaut-retry")
     implementation("io.micronaut.cache:micronaut-cache-caffeine")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
+    implementation("io.micronaut.reactor:micronaut-reactor")
     compileOnly("io.micronaut.openapi:micronaut-openapi-annotations")
     runtimeOnly("ch.qos.logback:logback-classic")
     testImplementation("org.mockito:mockito-core")
@@ -28,7 +29,7 @@ dependencies {
 
 
 application {
-    mainClass = "com.hangovers.Application"
+    mainClass = "com.hangovers.funpokedex.Application"
 }
 java {
     sourceCompatibility = JavaVersion.toVersion("21")
@@ -49,7 +50,7 @@ micronaut {
     testRuntime("junit5")
     processing {
         incremental(true)
-        annotations("com.hangovers.*")
+        annotations("com.hangovers.funpokedex.*")
     }
     aot {
         // Please review carefully the optimizations enabled below

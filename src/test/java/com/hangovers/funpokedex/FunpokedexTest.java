@@ -1,4 +1,4 @@
-package com.hangovers;
+package com.hangovers.funpokedex;
 
 import io.micronaut.runtime.EmbeddedApplication;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
