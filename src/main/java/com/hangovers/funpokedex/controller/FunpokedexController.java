@@ -25,7 +25,7 @@ public class FunpokedexController {
   @SingleResult
   @Retryable(attempts = "3", delay = "1s")
   Publisher<Pokemon> getPokemon(@PathVariable String name) {
-    log.info("Get pokemon for name {}", name);
+    log.info("Get pokèmon for name {}", name);
     return funpokedexService.getPokemon(name);
   }
 }

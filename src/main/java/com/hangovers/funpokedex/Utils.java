@@ -1,7 +1,6 @@
 package com.hangovers.funpokedex;
 
 import com.hangovers.funpokedex.model.Pokemon;
-import io.micronaut.http.client.exceptions.HttpClientResponseException;
 
 public class Utils {
 
@@ -25,7 +24,7 @@ public class Utils {
    */
   public static Pokemon missingno() {
     return new Pokemon(
-        "MissingNo.", "The Pokémon you are looking for does not exist.", "Unknown", false);
+        "MissingNo.", "The Pokémon you are looking for does not exist.", "Error", false);
   }
 
   /**
@@ -33,7 +32,7 @@ public class Utils {
    *
    * @return badEgg data
    */
-  public static Pokemon badEgg(HttpClientResponseException e) {
-    return new Pokemon("Bad EGG", e.getMessage(), "Unknown", false);
+  public static Pokemon badEgg() {
+    return new Pokemon("Bad EGG", "Something went wrong with your request.", "Error", false);
   }
 }
