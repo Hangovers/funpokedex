@@ -48,6 +48,8 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
    * @return friendly response to the end user
    */
   private Mono<Pokemon> handleError(Throwable t) {
+    log.debug(t.getMessage());
+
     if (Objects.requireNonNull(t) instanceof HttpClientResponseException e
         && e.getStatus() == NOT_FOUND) {
       log.error("Pokèmon not found");

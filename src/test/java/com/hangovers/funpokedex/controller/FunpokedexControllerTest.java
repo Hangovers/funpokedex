@@ -63,7 +63,7 @@ class FunpokedexControllerTest {
     pokeapi.close();
   }
 
-  /** This test is to see a response in normal circumstances. */
+  /** This test is used to see a response in normal circumstances. */
   @Test
   @Order(1)
   @Timeout(5)

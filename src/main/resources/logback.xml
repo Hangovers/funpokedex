@@ -8,6 +8,7 @@
         </encoder>
     </appender>
     <logger name="io.micronaut.http.client" level="WARN"/>
+    <logger name="io.micronaut.cache" level="WARN"/>
     <root level="info">
         <appender-ref ref="STDOUT" />
     </root>
