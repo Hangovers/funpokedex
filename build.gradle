@@ -38,7 +38,8 @@ java {
 
 spotless {
     java {
-        palantirJavaFormat()
+        removeUnusedImports()
+        googleJavaFormat()
         targetExclude("build/**")
     }
 }

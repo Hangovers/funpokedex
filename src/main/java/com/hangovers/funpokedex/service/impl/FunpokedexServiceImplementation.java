@@ -1,5 +1,9 @@
 package com.hangovers.funpokedex.service.impl;
 
+import static com.hangovers.funpokedex.Utils.badEgg;
+import static com.hangovers.funpokedex.Utils.missingno;
+import static io.micronaut.http.HttpStatus.NOT_FOUND;
+
 import com.hangovers.funpokedex.clients.pokeapi.PokeapiClient;
 import com.hangovers.funpokedex.clients.pokeapi.models.PokeApiResponse;
 import com.hangovers.funpokedex.model.Pokemon;
@@ -14,43 +18,43 @@ import reactor.core.publisher.Mono;
 @Singleton
 public class FunpokedexServiceImplementation implements FunpokedexService {
 
-    private final PokeapiClient pokeapiClient;
+  private final PokeapiClient pokeapiClient;
 
-    private static final Logger log = LoggerFactory.getLogger(FunpokedexServiceImplementation.class);
+  private static final Logger log = LoggerFactory.getLogger(FunpokedexServiceImplementation.class);
 
-    public FunpokedexServiceImplementation(PokeapiClient pokeapiClient) {
-        this.pokeapiClient = pokeapiClient;
+  public FunpokedexServiceImplementation(PokeapiClient pokeapiClient) {
+    this.pokeapiClient = pokeapiClient;
+  }
+
+  /**
+   * Get Pokèmon data from pokeapi based on input name
+   *
+   * @param name pokemon's name
+   * @return pokemon data
+   */
+  public Publisher<Pokemon> getPokemon(String name) {
+    log.info("Fetching data from pokeapi or cache for pokemon name {}", name);
+    return Mono.from(pokeapiClient.fetchPokemonSpecies(name))
+        .map(PokeApiResponse::asPokemon)
+        .onErrorResume(this::handleError);
+  }
+
+  private Mono<Pokemon> handleError(Throwable t) {
+    switch (t) {
+      case HttpClientResponseException e when e.getStatus() == NOT_FOUND -> {
+        log.error("Pokèmon not found");
+        return Mono.just(missingno());
+      }
+
+      case HttpClientResponseException e -> {
+        log.error("Error while retrieving pokemon. {}", e.getMessage());
+        return Mono.just(badEgg(e));
+      }
+
+      default -> {
+        log.error("Unexpected error while retrieving pokemon. {}", t.getMessage());
+        return Mono.error(t);
+      }
     }
-
-    /**
-     * Get Pokèmon data from pokeapi based on input name
-     * @param name pokemon's name
-     * @return pokemon data
-     */
-    public Publisher<Pokemon> getPokemon(String name) {
-        log.info("Fetching data from pokeapi or cache for pokemon name {}", name);
-        return Mono.from(pokeapiClient.fetchPokemonSpecies(name))
-                .map(PokeApiResponse::asPokemon)
-                .onErrorResume(this::handleError);
-    }
-
-    private Mono<Pokemon> handleError(Throwable t) {
-        switch(t) {
-            case HttpClientResponseException e
-                    when e.getStatus() == NOT_FOUND -> {
-                log.error("Pokèmon not found");
-                return Mono.just(Utils.missingno());
-            }
-
-            case HttpClientResponseException e -> {
-                log.error("Error while retrieving pokemon. {}", e.getMessage());
-                return Mono.just(Utils.badEgg(e));
-            }
-
-            default -> {
-                log.error("Unexpected error while retrieving pokemon. {}", t.getMessage());
-                return Mono.error(t);
-            }
-        }
-    }
+  }
 }

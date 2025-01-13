@@ -9,11 +9,10 @@ import org.junit.jupiter.api.Test;
 @MicronautTest
 class FunpokedexTest {
 
-    @Inject
-    EmbeddedApplication<?> application;
+  @Inject EmbeddedApplication<?> application;
 
-    @Test
-    void testItWorks() {
-        Assertions.assertTrue(application.isRunning());
-    }
+  @Test
+  void testItWorks() {
+    Assertions.assertTrue(application.isRunning());
+  }
 }

@@ -17,8 +17,8 @@ import org.reactivestreams.Publisher;
 @Header(name = ACCEPT, value = "application/json")
 public interface PokeapiClient {
 
-    @Get("/pokemon-species/{name}")
-    @SingleResult
-    @Cacheable
-    Publisher<PokeApiResponse> fetchPokemonSpecies(@QueryValue String name);
+  @Get("/pokemon-species/{name}")
+  @SingleResult
+  @Cacheable
+  Publisher<PokeApiResponse> fetchPokemonSpecies(@QueryValue String name);
 }
