@@ -24,7 +24,7 @@ public record PokeApiResponse(
 
   /** Mapper method to convert pokeapi fetched data into the proper response */
   public Pokemon asPokemon() {
-    log.info("Mapping {} into proper resposne", this.name);
+    log.info("Mapping {} into proper response", this.name);
     return new Pokemon(this.name(), getEnglishDescription(), this.habitat.name, this.is_legendary);
   }
 

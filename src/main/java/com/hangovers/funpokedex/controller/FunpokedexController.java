@@ -28,4 +28,12 @@ public class FunpokedexController {
     log.info("Get pokèmon for name {}", name);
     return funpokedexService.getPokemon(name);
   }
+
+  @Get("translated/{name}")
+  @SingleResult
+  @Retryable(attempts = "3", delay = "1s")
+  Publisher<Pokemon> getTranslatedPokemon(@PathVariable String name) {
+    log.info("Get translated pokèmon data for name {}", name);
+    return funpokedexService.getTranslatedPokemon(name);
+  }
 }
