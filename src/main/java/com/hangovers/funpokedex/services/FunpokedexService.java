@@ -1,6 +1,6 @@
-package com.hangovers.funpokedex.service;
+package com.hangovers.funpokedex.services;
 
-import com.hangovers.funpokedex.model.Pokemon;
+import com.hangovers.funpokedex.models.Pokemon;
 import org.reactivestreams.Publisher;
 
 public interface FunpokedexService {

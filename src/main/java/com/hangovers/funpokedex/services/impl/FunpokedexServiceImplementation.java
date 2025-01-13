@@ -1,4 +1,4 @@
-package com.hangovers.funpokedex.service.impl;
+package com.hangovers.funpokedex.services.impl;
 
 import static com.hangovers.funpokedex.Utils.badEgg;
 import static com.hangovers.funpokedex.Utils.missingno;
@@ -9,8 +9,8 @@ import com.hangovers.funpokedex.clients.funtranslationsapi.models.Funtranslation
 import com.hangovers.funpokedex.clients.funtranslationsapi.models.TranslationRequest;
 import com.hangovers.funpokedex.clients.pokeapi.PokeapiClient;
 import com.hangovers.funpokedex.clients.pokeapi.models.PokeApiResponse;
-import com.hangovers.funpokedex.model.Pokemon;
-import com.hangovers.funpokedex.service.FunpokedexService;
+import com.hangovers.funpokedex.models.Pokemon;
+import com.hangovers.funpokedex.services.FunpokedexService;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import jakarta.inject.Singleton;
 import java.time.Duration;
@@ -62,9 +62,11 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
             pokemon -> {
               if (pokemon.name().equalsIgnoreCase("MissingNo.")
                   || pokemon.name().equalsIgnoreCase("Bad EGG")) return pokemon;
+
               log.info("fetching translated description for pokemon name {}", pokemon.name());
               String description = getTranslatedDescription(pokemon).block(Duration.ofSeconds(2L));
               log.info("translated description: {}", description);
+
               return new Pokemon(
                   pokemon.name(), description, pokemon.habitat(), pokemon.isLegendary());
             });
@@ -75,6 +77,7 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
       return funtranslationsapiClient
           .fetchYodaTranslations(new TranslationRequest(pokemon.description()))
           .map(FuntranslationsapiResponse::asTranslation);
+
     return funtranslationsapiClient
         .fetchShakespeareTranslations(new TranslationRequest(pokemon.description()))
         .map(FuntranslationsapiResponse::asTranslation);
@@ -92,6 +95,7 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
 
     if (Objects.requireNonNull(t) instanceof HttpClientResponseException e
         && e.getStatus() == NOT_FOUND) {
+
       log.error("Pokèmon not found");
       return Mono.just(missingno());
     }

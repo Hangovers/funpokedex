@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import ch.qos.logback.classic.LoggerContext;
 import com.hangovers.funpokedex.TestUtils;
-import com.hangovers.funpokedex.model.Pokemon;
+import com.hangovers.funpokedex.models.Pokemon;
 import io.micronaut.context.ApplicationContext;
 import io.micronaut.context.annotation.Requires;
 import io.micronaut.core.io.ResourceLoader;
@@ -40,6 +40,8 @@ class FunpokedexControllerTest {
 
   @Inject static EmbeddedServer pokeapi;
 
+  @Inject static EmbeddedServer funtranslationsapi;
+
   @Inject static EmbeddedServer embeddedServer;
 
   @BeforeAll
@@ -50,6 +52,10 @@ class FunpokedexControllerTest {
 
     pokeapi =
         ApplicationContext.run(EmbeddedServer.class, Map.of("spec.name", "PokeapiClientTest"));
+
+    funtranslationsapi =
+        ApplicationContext.run(
+            EmbeddedServer.class, Map.of("spec.name", "FuntranslationsapiClientTest"));
 
     embeddedServer =
         ApplicationContext.run(

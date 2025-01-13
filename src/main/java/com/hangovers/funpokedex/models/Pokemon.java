@@ -1,4 +1,4 @@
-package com.hangovers.funpokedex.model;
+package com.hangovers.funpokedex.models;
 
 import io.micronaut.serde.annotation.Serdeable;
 

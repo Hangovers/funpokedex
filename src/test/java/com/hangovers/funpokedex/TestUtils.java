@@ -1,6 +1,6 @@
 package com.hangovers.funpokedex;
 
-import com.hangovers.funpokedex.model.Pokemon;
+import com.hangovers.funpokedex.models.Pokemon;
 
 public class TestUtils {
 

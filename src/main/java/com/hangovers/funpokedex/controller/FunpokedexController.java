@@ -1,7 +1,7 @@
 package com.hangovers.funpokedex.controller;
 
-import com.hangovers.funpokedex.model.Pokemon;
-import com.hangovers.funpokedex.service.FunpokedexService;
+import com.hangovers.funpokedex.models.Pokemon;
+import com.hangovers.funpokedex.services.FunpokedexService;
 import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
