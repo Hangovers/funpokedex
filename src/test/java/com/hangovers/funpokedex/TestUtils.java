@@ -1,20 +1,29 @@
 package com.hangovers.funpokedex;
 
+import static com.hangovers.funpokedex.TestConstants.*;
+
 import com.hangovers.funpokedex.models.Pokemon;
 
 public class TestUtils {
 
-  /**
-   * Used to return mewtwo data
-   *
-   * @return mewtwo data
-   */
+  /** Returns mewtwo data */
   public static Pokemon mewtwo() {
-    return new Pokemon(
-        "mewtwo",
-        "It was created by a scientist after years of horrific gene splicing and DNA engineering experiments.",
-        "rare",
-        true);
+    return new Pokemon(MEWTWO, MEWTWO_DESCRIPTION, "rare", true);
+  }
+
+  /** Returns mewtwo data with translated description */
+  public static Pokemon mewtwoTranslated() {
+    return new Pokemon(MEWTWO, MEWTWO_TRANSLATED_DESCRIPTION, "rare", true);
+  }
+
+  /** Returns charizard data */
+  public static Pokemon charizard() {
+    return new Pokemon(CHARIZARD, CHARIZARD_DESCRIPTION, "mountain", false);
+  }
+
+  /** returns flygon data with translated description */
+  public static Pokemon flygonTranslated() {
+    return new Pokemon(FLYGON, FLYGON_TRANSLATED_DESCRIPTION, "rough-terrain", false);
   }
 
   /**

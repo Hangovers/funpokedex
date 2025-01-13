@@ -5,12 +5,12 @@ import static com.hangovers.funpokedex.Utils.missingno;
 import static io.micronaut.http.HttpStatus.NOT_FOUND;
 
 import com.hangovers.funpokedex.clients.funtranslationsapi.FuntranslationsapiClient;
-import com.hangovers.funpokedex.clients.funtranslationsapi.models.FuntranslationsapiResponse;
 import com.hangovers.funpokedex.clients.funtranslationsapi.models.TranslationRequest;
 import com.hangovers.funpokedex.clients.pokeapi.PokeapiClient;
 import com.hangovers.funpokedex.clients.pokeapi.models.PokeApiResponse;
 import com.hangovers.funpokedex.models.Pokemon;
 import com.hangovers.funpokedex.services.FunpokedexService;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.client.exceptions.HttpClientResponseException;
 import jakarta.inject.Singleton;
 import java.time.Duration;
@@ -49,7 +49,7 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
   }
 
   /**
-   * Get Pokèmon data and then translate its description based on some criteria If something goes
+   * Get Pokèmon data and then translate its description based on some criteria. If something goes
    * wrong, returns pokèmon with normal description.
    *
    * @param name pokèmon's name
@@ -72,15 +72,64 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
             });
   }
 
+  /**
+   * Logic to determine which funtranslations api is going to be used. it also handles error.
+   *
+   * @param pokemon pokèmon that is going to get a translated description
+   * @return the translated description
+   */
   private Mono<String> getTranslatedDescription(Pokemon pokemon) {
-    if (pokemon.isLegendary() || pokemon.habitat().equalsIgnoreCase("cave"))
-      return funtranslationsapiClient
-          .fetchYodaTranslations(new TranslationRequest(pokemon.description()))
-          .map(FuntranslationsapiResponse::asTranslation);
+    try {
+      TranslationRequest request = new TranslationRequest(pokemon.description());
+      if (pokemon.isLegendary() || pokemon.habitat().equalsIgnoreCase("cave"))
+        return fetchYodaTranslations(request);
 
+      return fetchShakespeareTranslations(request);
+    } catch (HttpClientResponseException e) {
+      return Mono.just(pokemon.description());
+    }
+  }
+
+  /**
+   * fetch a translation from yoda api.
+   *
+   * @param request pokèmon's description
+   * @return the translated description
+   */
+  private Mono<String> fetchYodaTranslations(TranslationRequest request) {
     return funtranslationsapiClient
-        .fetchShakespeareTranslations(new TranslationRequest(pokemon.description()))
-        .map(FuntranslationsapiResponse::asTranslation);
+        .fetchYodaTranslations(request)
+        .map(
+            funtranslationsapiResponse -> {
+              if (funtranslationsapiResponse.error() != null) {
+                log.error(funtranslationsapiResponse.error().message());
+                return request.text();
+              }
+              return funtranslationsapiResponse.asTranslation();
+            })
+        .onErrorMap(
+            t -> new HttpClientResponseException(t.getMessage(), HttpResponse.serverError()));
+  }
+
+  /**
+   * fetch a translation from shakespeare api.
+   *
+   * @param request pokèmon's description
+   * @return the translated description
+   */
+  private Mono<String> fetchShakespeareTranslations(TranslationRequest request) {
+    return funtranslationsapiClient
+        .fetchShakespeareTranslations(request)
+        .map(
+            funtranslationsapiResponse -> {
+              if (funtranslationsapiResponse.error() != null) {
+                log.error(funtranslationsapiResponse.error().message());
+                return request.text();
+              }
+              return funtranslationsapiResponse.asTranslation();
+            })
+        .onErrorMap(
+            t -> new HttpClientResponseException(t.getMessage(), HttpResponse.serverError()));
   }
 
   /**
