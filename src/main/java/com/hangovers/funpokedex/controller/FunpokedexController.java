@@ -6,7 +6,6 @@ import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
-import io.micronaut.retry.annotation.Retryable;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,6 @@ public class FunpokedexController {
 
   @Get("/{name}")
   @SingleResult
-  @Retryable(attempts = "3", delay = "1s")
   Publisher<Pokemon> getPokemon(@PathVariable String name) {
     log.info("Get pokèmon for name {}", name);
     return funpokedexService.getPokemon(name);
@@ -31,7 +29,6 @@ public class FunpokedexController {
 
   @Get("translated/{name}")
   @SingleResult
-  @Retryable(attempts = "3", delay = "1s")
   Publisher<Pokemon> getTranslatedPokemon(@PathVariable String name) {
     log.info("Get translated pokèmon data for name {}", name);
     return funpokedexService.getTranslatedPokemon(name);
