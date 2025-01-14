@@ -20,6 +20,7 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
     implementation("io.micronaut:micronaut-jackson-databind")
     implementation("io.micronaut.cache:micronaut-cache-caffeine")
+    implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.serde:micronaut-serde-jackson")
     implementation("io.micronaut.reactor:micronaut-reactor")
     implementation("io.micronaut.openapi:micronaut-openapi-annotations")
@@ -42,6 +43,20 @@ spotless {
         removeUnusedImports()
         palantirJavaFormat()
         targetExclude("build/**")
+    }
+}
+
+if (System.getenv('DOCKER_BUILD') == 'true') {
+    tasks.matching { it.name.startsWith('spotless') }.configureEach {
+        enabled = false
+    }
+}
+
+tasks.named("jar") {
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass.get()
+        )
     }
 }
 
