@@ -18,13 +18,13 @@ import reactor.core.publisher.Mono;
 @Header(name = ACCEPT, value = "application/json")
 public interface FuntranslationsapiClient {
 
-  @Post("/yoda")
-  @SingleResult
-  @Cacheable
-  Mono<FuntranslationsapiResponse> fetchYodaTranslations(@Body TranslationRequest text);
+    @Post("/yoda")
+    @SingleResult
+    @Cacheable
+    Mono<FuntranslationsapiResponse> fetchYodaTranslations(@Body TranslationRequest text);
 
-  @Post("/shakespeare")
-  @SingleResult
-  @Cacheable
-  Mono<FuntranslationsapiResponse> fetchShakespeareTranslations(@Body TranslationRequest text);
+    @Post("/shakespeare")
+    @SingleResult
+    @Cacheable
+    Mono<FuntranslationsapiResponse> fetchShakespeareTranslations(@Body TranslationRequest text);
 }

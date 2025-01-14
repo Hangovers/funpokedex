@@ -13,24 +13,24 @@ import org.slf4j.LoggerFactory;
 @Controller("/pokemon")
 public class FunpokedexController {
 
-  private final FunpokedexService funpokedexService;
-  private static final Logger log = LoggerFactory.getLogger(FunpokedexController.class);
+    private final FunpokedexService funpokedexService;
+    private static final Logger log = LoggerFactory.getLogger(FunpokedexController.class);
 
-  public FunpokedexController(FunpokedexService funpokedexService) {
-    this.funpokedexService = funpokedexService;
-  }
+    public FunpokedexController(FunpokedexService funpokedexService) {
+        this.funpokedexService = funpokedexService;
+    }
 
-  @Get("/{name}")
-  @SingleResult
-  Publisher<Pokemon> getPokemon(@PathVariable String name) {
-    log.info("Get pokèmon for name {}", name);
-    return funpokedexService.getPokemon(name);
-  }
+    @Get("/{name}")
+    @SingleResult
+    Publisher<Pokemon> getPokemon(@PathVariable String name) {
+        log.info("Get pokèmon for name {}", name);
+        return funpokedexService.getPokemon(name);
+    }
 
-  @Get("translated/{name}")
-  @SingleResult
-  Publisher<Pokemon> getTranslatedPokemon(@PathVariable String name) {
-    log.info("Get translated pokèmon data for name {}", name);
-    return funpokedexService.getTranslatedPokemon(name);
-  }
+    @Get("translated/{name}")
+    @SingleResult
+    Publisher<Pokemon> getTranslatedPokemon(@PathVariable String name) {
+        log.info("Get translated pokèmon data for name {}", name);
+        return funpokedexService.getTranslatedPokemon(name);
+    }
 }

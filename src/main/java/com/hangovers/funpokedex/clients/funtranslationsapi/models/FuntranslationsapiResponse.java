@@ -7,11 +7,11 @@ import org.slf4j.LoggerFactory;
 @Serdeable
 public record FuntranslationsapiResponse(Contents contents, Error error) {
 
-  private static final Logger log = LoggerFactory.getLogger(FuntranslationsapiResponse.class);
+    private static final Logger log = LoggerFactory.getLogger(FuntranslationsapiResponse.class);
 
-  /** Mapper method to convert funtranslations api fetched data into the proper response */
-  public String asTranslation() {
-    log.info("Mapping {} into proper response", this.contents.translated());
-    return this.contents.translated();
-  }
+    /** Mapper method to convert funtranslations api fetched data into the proper response */
+    public String asTranslation() {
+        log.info("Mapping {} into proper response", this.contents.translated());
+        return this.contents.translated();
+    }
 }

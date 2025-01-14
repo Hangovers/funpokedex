@@ -13,8 +13,8 @@ import org.reactivestreams.Publisher;
 @Client("${pokeapi.url}")
 public interface PokeapiClient {
 
-  @Get("/pokemon-species/{name}")
-  @SingleResult
-  @Cacheable
-  Publisher<PokeApiResponse> fetchPokemonSpecies(@QueryValue String name);
+    @Get("/pokemon-species/{name}")
+    @SingleResult
+    @Cacheable
+    Publisher<PokeApiResponse> fetchPokemonSpecies(@QueryValue String name);
 }
