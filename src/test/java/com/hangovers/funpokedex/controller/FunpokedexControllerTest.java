@@ -233,15 +233,20 @@ class FunpokedexControllerTest {
                 assertEquals(HttpStatus.OK, response.getStatus());
                 assertEquals(response.body(), porygonz());
             }
-            case DOES_NOT_EXIST, POKEMON_THAT_CANNOT_EXIST -> {
+            case DOES_NOT_EXIST -> {
                 HttpResponse<Pokemon> response = client.exchange(request, Pokemon.class);
                 assertEquals(HttpStatus.OK, response.getStatus());
                 assertEquals(response.body(), missingno());
             }
+            case POKEMON_THAT_CANNOT_EXIST -> {
+                HttpResponse<Pokemon> response = client.exchange(request, Pokemon.class);
+                assertEquals(HttpStatus.OK, response.getStatus());
+                assertEquals(response.body(), badEgg(BAD_REQUEST));
+            }
             default -> {
                 HttpResponse<Pokemon> response = client.exchange(request, Pokemon.class);
                 assertEquals(HttpStatus.OK, response.getStatus());
-                assertEquals(response.body(), badEgg());
+                assertEquals(response.body(), badEgg(SOMETHING_WENT_WRONG));
             }
         }
     }
@@ -279,7 +284,7 @@ class FunpokedexControllerTest {
             default -> {
                 HttpResponse<Pokemon> response = client.exchange(request, Pokemon.class);
                 assertEquals(HttpStatus.OK, response.getStatus());
-                assertEquals(response.body(), badEgg());
+                assertEquals(response.body(), badEgg(SOMETHING_WENT_WRONG));
             }
         }
     }

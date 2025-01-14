@@ -45,7 +45,7 @@ public class TestUtils {
      *
      * @return badEgg data
      */
-    public static Pokemon badEgg() {
-        return new Pokemon("Bad EGG", "Something went wrong with your request.", "Error", false);
+    public static Pokemon badEgg(String error) {
+        return new Pokemon("Bad EGG", error, "Error", false);
     }
 }

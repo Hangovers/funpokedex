@@ -6,6 +6,8 @@ import io.micronaut.core.async.annotation.SingleResult;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.PathVariable;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import org.reactivestreams.Publisher;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,14 +24,14 @@ public class FunpokedexController {
 
     @Get("/{name}")
     @SingleResult
-    Publisher<Pokemon> getPokemon(@PathVariable String name) {
+    Publisher<Pokemon> getPokemon(@PathVariable @NotBlank String name) {
         log.info("Get pokèmon for name {}", name);
         return funpokedexService.getPokemon(name);
     }
 
     @Get("translated/{name}")
     @SingleResult
-    Publisher<Pokemon> getTranslatedPokemon(@PathVariable String name) {
+    Publisher<Pokemon> getTranslatedPokemon(@PathVariable @NotEmpty String name) {
         log.info("Get translated pokèmon data for name {}", name);
         return funpokedexService.getTranslatedPokemon(name);
     }

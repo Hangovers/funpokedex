@@ -19,4 +19,6 @@ public class TestConstants {
             "Flygon is nicknamed “the elemental spirit of the desert.” because its flapping wings whip up a cloud of sand,  this pokémon is at each moment enveloped in a sandstorm while flying.";
     public static final String MEWTWO_TRANSLATED_DESCRIPTION =
             "Created by a scientist after years of horrific gene splicing and dna engineering experiments,  it was.";
+    public static final String SOMETHING_WENT_WRONG = "Something went wrong with your request.";
+    public static final String BAD_REQUEST = "Bad request. Pokèmon with this name could not possibly exist.";
 }

@@ -47,7 +47,7 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
 
         if (!Pattern.matches("^[A-Za-z][A-Za-z0-9'-. :]*$", name)) {
             log.info("Invalid pokèmon name: {}", name);
-            return Mono.just(missingno());
+            return Mono.just(badEgg("Bad request. Pokèmon with this name could not possibly exist."));
         }
         log.info("Fetching data from pokeapi or cache for pokèmon name {}", name);
         return Mono.from(pokeapiClient.fetchPokemonSpecies(name))
@@ -142,12 +142,11 @@ public class FunpokedexServiceImplementation implements FunpokedexService {
         log.debug(t.getMessage());
 
         if (Objects.requireNonNull(t) instanceof HttpClientResponseException e && e.getStatus() == NOT_FOUND) {
-
             log.error("Pokèmon not found");
             return Mono.just(missingno());
         }
 
         log.error("Error while retrieving pokèmon. {}", t.getMessage());
-        return Mono.just(badEgg());
+        return Mono.just(badEgg("Something went wrong with your request."));
     }
 }
